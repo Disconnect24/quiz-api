@@ -35,5 +35,32 @@ func time_convert(time int) int {
 
 // use time.Now().Unix() instead of fetching epoch
 
+func get_timestamp(mode, type, date) int {
+    if mode == 0 {
+        timestamp = time_convert(time.Now().Unix())
+    else if mode == 1 or mode == 2 {
+        timestamp = time_convert(time.mktime(date.timetuple()))
+    }
+        if mode == 2 {
+            if production {
+                if type == "n" {
+                    timestamp += 10080 }
+                else if type == "w" {
+                    timestamp += 21600 }
+            else {
+                timestamp += 5 }
+    return timestamp }}}
 
+// ex. usage: get_timestamp(1, "n", get_date(q))
 
+func days_ago() int { // what a useful function
+    if national_results > 0 {
+        return 7
+    }
+    else if national_results > 0 {
+        return 14
+    }
+    else {
+        return 0
+    }
+}
