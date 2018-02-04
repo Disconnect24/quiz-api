@@ -11,28 +11,27 @@ type CountryVotingData struct {
     national int32
     national_results int32
     question_data *[]QuestionData // would have to be defined later on
-    result_data *[]ResultData // likewise, as we figure it out
+    result_data *[]ResultData // will be figured out also
     country_code int32
     country_count int32
     language_code int32
-    languages []int32 // I think this is multiple ints at least
-    _ int32 // pretty sure num/number are unused
-    _ int32
-    nw string
+    languages []int32 // what the fuck? [probably multiple ints]
+    _ int32 // what the fuck?
+    _ int32 // what the fuck?
+    nw string // what the fuck?
     worldwide_q int32 // even if bool, needs to be written as 4 bytes
-    national_q int32
-    file_type // todo figure out xd
+    national_q int32 
+    file_type // what the fuck?
     write_questions int32
     write_results int32
-} // thanks spot
+}
 
 fmt.Println("EVC File Generator") 
 fmt.Println("By TheMrIron2 and Spotlight")
-// you know honestly why is it even important to print this
-// I digress
+// you know honestly why is it even important to say this
 
 func time_convert(time int) int {
-  return ((time - 946684800) / 60)
+  return ((time - 946684800) / 60) // what the fuck?
 }
 
 // use time.Now().Unix() instead of fetching epoch
@@ -41,7 +40,7 @@ func get_timestamp(mode, type, date) int {
     if mode == 0 {
         timestamp = time_convert(time.Now().Unix())
     else if mode == 1 or mode == 2 {
-        timestamp = time_convert(time.mktime(date.timetuple()))
+        timestamp = time_convert(time.mktime(date.timetuple())) // what the fuck?
     }
         if mode == 2 {
             if production {
@@ -70,11 +69,11 @@ func days_ago() int {
 //year, month, day := fromDate.Date()
    
 func get_poll_id() int {
-    return poll_id
-}
+    return poll_id // what the fuck?
+} // why??
     
 func pad(amnt) int {
-    return "\0" * amnt // This code is garbage my god
+    return "\0" * amnt // what the fuck?
 }
 
 func prepare() int {
@@ -92,11 +91,15 @@ func prepare() int {
     
     /*
     you know as much as I dislike python and think Go is just plain better
-    it is now also apparent that Go can also suck a cactus when it acts bad like this
+    it is now also apparent that Go can also suck a cactus with shit like this
+    file type is an int?
+    national is an int?
+    IS ANYTHING NOT AN INT?
+    THE INTS ARE TAKING OVER
     */
     
     fmt.Println("Preparing ...")
-    if production { // todo: learn go, i have definitely just done something wrong
+    if production { // todo: learn go
         client = Client(sentry_url)
         handler = SentryHandler(client)
         setup_logging(handler)
@@ -122,10 +125,47 @@ func prepare() int {
     make_language_table()
 }
     
-/*
-well the python docstring here is """Manually enter in what file type you want if no arguments are specified."""
-however I don't know Go well enough to hack-fuck docstrings with actual code
-sorry
-just going to wait for snoot i suppose
-this code is broken anyway lmao
-*/
+// Manually enter in what file type you want if no arguments are specified.
+
+func manual_run() int {
+    question_count := len(question_data)
+    fmt.Println("Loaded %s %s" % (question_count, "Question(s)"))
+    file_type = raw_input('Enter File Type (q/r/v): ')
+    if file_type == "q" {
+        write_questions = true
+    }
+    else if file_type == "r" {
+        write_results = true
+    }
+    else if file_type == "v" {
+        if raw_input('Write Questions? (y/n): ') == "y" {
+            write_questions = true
+        }
+        if raw_input('Write Results? (y/n): ') == "y" {
+            write_results = true
+        }
+    }
+    else {
+        fmt.Println("Error: Invalid file type selected")
+        os.Exit(1) // error code 1 indicates invalid file type for future reference
+    }
+    if file_type == "r" or (file_type == "v") { // (file_type == "v" and write results)?
+        poll_id = int(raw_input('Enter Result Poll ID: ')) // Python-esque garbage
+    }
+}
+    
+// Automatically run the scripts. This will be what the crontab uses.
+
+
+func automatic_questions() int {
+    // defining vars that were shittily, globally defined in 1 line in Python in old code
+    var write_questions int32
+    var write_results int32
+    var questions int32
+    var nw int32
+    
+    write_questions = true
+    nw = sys.argv[2]
+    mysql_get_questions(1, nw) // todo: mysql in go
+    questions = 1
+}
