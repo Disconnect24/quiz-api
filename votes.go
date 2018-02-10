@@ -5,6 +5,7 @@
 package main
 
 import "fmt"
+import "database/sql"
 
 type CountryVotingData struct {
     worldwide int32
@@ -89,14 +90,7 @@ func prepare() int {
     var national int32
     var worldwide int32
     
-    /*
-    you know as much as I dislike python and think Go is just plain better
-    it is now also apparent that Go can also suck a cactus with shit like this
-    file type is an int?
-    national is an int?
-    IS ANYTHING NOT AN INT?
-    THE INTS ARE TAKING OVER
-    */
+    // does this even work?
     
     fmt.Println("Preparing ...")
     if production { // todo: learn go
@@ -169,3 +163,53 @@ func automatic_questions() int {
     mysql_get_questions(1, nw) // todo: mysql in go
     questions = 1
 }
+
+func automatic_results() int {
+    var write_results int32
+    var results int32
+    var national int32
+    var worldwide int32
+    var questions int32
+    var national_results int32
+    var worldwide_results int32
+    var nw int32
+    
+    // sigh
+    
+    
+    write_results = true
+    nw = os.Args[2:]
+    if nw == "n":
+        days = 7
+    else if nw == "w":
+        days = 15
+    results[get_poll_id()] = mysql_get_votes(days, nw, 1)
+    delete results[None] // except keyerror pass??
+    national = 0
+    worldwide = 0
+    questions = 0
+}
+    
+func automatic_votes() int {
+    var write_questions int32
+    var write_results int32
+    var questions int32
+    var results int32
+    var national int32
+    var worldwide int32
+    var questions int32
+    
+    write_questions = true
+    write_results = true
+    mysql_get_questions(1, "w")
+    mysql_get_questions(3, "n")
+    questions = national + worldwide
+    question_count = len(question_data)
+    printf("Loaded %s %s" % (question_count, "Questions"))
+    for v in list(reversed(range(1, 7))) {
+        results[get_poll_id()] = mysql_get_votes(7, "n", v)
+        results[get_poll_id()] = mysql_get_votes(15, "w", 1)
+    } // THIS DOESNT EVEN WORK because i don't know go
+    delete results[None]
+}
+   
